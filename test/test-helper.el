@@ -16,6 +16,6 @@
 
 ;; Mock Helpers
 
-(defmacro mock-request (query-vars fixture)
-  (let ((uri (cryptsy-public-api--create-endpoint query-vars)))
-    `(mock (cryptsy-public-api--get-uri ,uri) => (read-fixture ,fixture))))
+(defmacro mock-request (path query-vars fixture)
+  (let ((uri (bter-api--create-endpoint path query-vars)))
+    `(mock (bter-api--get-uri ,uri) => (read-fixture ,fixture))))
