@@ -39,7 +39,40 @@
 
 ;; Main query methods
 
+(defun bter-api-get-pairs ()
+  "Get a list of all trading pairs supported by the Bter platform."
+  (bter-api--get "pairs"))
+
 ;; Internal helpers
+
+(defun bter-api--get (path &optional query-vars)
+  "Generate a uri using PATH and optional QUERY-VARS and retrieve the result."
+  (bter-api--get-uri (bter-api--create-endpoint path query-vars)))
+
+(defun bter-api--create-endpoint (path &optional query-vars)
+  "Build an endpoint to the api using PATH and QUERY-VARS."
+  (format "%s%s/%s"
+          bter-api-endpoint
+          path
+          (bter-api--build-query query-vars)))
+
+
+(defun bter-api--build-query (query-vars)
+  "Build a query string using QUERY-VARS.
+
+QUERY-VARS should be a list of symbols and their corresponding
+values.
+
+For example (:key value :other-key value) will generate
+the following string: key=value&other-key=value"
+  (if (null query-vars)
+      ""
+    (progn (let (query-string)
+             (dolist (var query-vars)
+               (if (symbolp var)
+                   (setq query-string (concat query-string (substring (symbol-name var) 1) "="))
+                 (setq query-string (format "%s%s&" query-string var))))
+             (concat "?" (substring query-string 0 -1))))))
 
 (defun bter-api--get-uri (uri)
   "Fetch the contents of URI and return as JSON."
