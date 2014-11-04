@@ -5,6 +5,16 @@
    (mock-request "pairs" nil "pairs.json")
    (should (= 154 (length (bter-api-get-pairs))))))
 
+(ert-deftest bter-api-test/get-pairs-returns-list ()
+  (with-mock
+   (mock-request "pairs" nil "pairs.json")
+   (should (listp (bter-api-get-pairs)))))
+
+(ert-deftest bter-api-test/can-validate-pair ()
+  (with-mock
+   (mock-request "pairs" nil "pairs.json")
+   (should (bter-api-valid-pair-p "btc_usd"))
+   (should-not (bter-api-valid-pair-p "bbb_bbb"))))
 
 ;; Internal Tests
 

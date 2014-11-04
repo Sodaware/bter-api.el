@@ -41,7 +41,12 @@
 
 (defun bter-api-get-pairs ()
   "Get a list of all trading pairs supported by the Bter platform."
-  (bter-api--get "pairs"))
+  (append (bter-api--get "pairs") nil))
+
+(defun bter-api-valid-pair-p (pair)
+  "Verify that PAIR is a valid trading pair."
+  (let ((pairs (bter-api-get-pairs)))
+    (member-ignore-case pair pairs)))
 
 ;; Internal helpers
 
