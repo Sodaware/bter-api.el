@@ -48,6 +48,25 @@
   (let ((pairs (bter-api-get-pairs)))
     (member-ignore-case pair pairs)))
 
+(defun bter-api-get-all-market-info ()
+  "Get a list of all market fees, minimum amounts and decimal places."
+  (let* ((market-info (bter-api--get "marketinfo"))
+         (pairs (assoc-default 'pairs market-info)))
+    (mapcar (lambda (data)
+              (let ((pair-name (caar data))
+                    (pair-data (cdar data)))
+                `((,:pair . ,(symbol-name pair-name))
+                  (,:decimal-places . ,(assoc-default 'decimal_places pair-data))
+                  (,:min-amount . ,(assoc-default 'min_amount pair-data))
+                  (,:fee . ,(assoc-default 'fee pair-data)))))
+            pairs)))
+
+(defun bter-api-get-market-info (market)
+  "Get the market fees, minimum amounts and decimal places for MARKET."
+  (let ((market-info (bter-api-get-all-market-info)))
+    (bter-api--find-market market market-info)))
+
+
 ;; Internal helpers
 
 (defun bter-api--get (path &optional query-vars)
@@ -86,6 +105,15 @@ the following string: key=value&other-key=value"
     (goto-char url-http-end-of-headers)
     (prog1 (json-read)
       (kill-buffer))))
+
+(defun bter-api--find-market (market market-data)
+  "Find MARKET in MARKET-DATA."
+  (let ((result))
+    (dolist (m market-data)
+      (when (string= market (assoc-default :pair m))
+        (setq result m)))
+    result))
+
 
 (provide 'bter-api)
 ;;; bter-api.el ends here
