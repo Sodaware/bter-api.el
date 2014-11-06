@@ -108,6 +108,11 @@
           path
           (bter-api--build-query query-vars)))
 
+(defun bter-api--string-to-number (value)
+  "Safely converts VALUE to a number."
+  (if (stringp value)
+      (string-to-number value)
+    value))
 
 (defun bter-api--build-query (query-vars)
   "Build a query string using QUERY-VARS.

@@ -57,3 +57,9 @@
   (should (string=
            "http://data.bter.com/api/1/test-path/?arg=value"
            (bter-api--create-endpoint "test-path" (list :arg "value")))))
+
+(ert-deftest bter-api-test/string-to-number-returns-number-with-string-value ()
+  (should (= 123.456 (bter-api--string-to-number "123.456"))))
+
+(ert-deftest bter-api-test/string-to-number-returns-number-with-number-value ()
+  (should (= 123.456 (bter-api--string-to-number 123.456))))
