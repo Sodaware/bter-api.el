@@ -37,6 +37,14 @@
      (should (= 0.0001 (assoc-default :min-amount market)))
      (should (= 0.2 (assoc-default :fee market))))))
 
+(ert-deftest bter-api-test/can-get-all-market-details ()
+  (with-mock
+   (mock-request "marketlist" nil "marketlist.json")
+   (let* ((markets (bter-api-get-all-market-details))
+          (first-market (elt markets 0)))
+     (should (= 1 (assoc-default :number first-market)))
+     (should (string= "BTC" (assoc-default :symbol first-market))))))
+
 
 ;; Internal Tests
 

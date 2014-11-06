@@ -37,6 +37,7 @@
 
 (defconst bter-api-endpoint "http://data.bter.com/api/1/")
 
+
 ;; Main query methods
 
 (defun bter-api-get-pairs ()
@@ -65,6 +66,33 @@
   "Get the market fees, minimum amounts and decimal places for MARKET."
   (let ((market-info (bter-api-get-all-market-info)))
     (bter-api--find-market market market-info)))
+
+
+(defun bter-api-get-all-market-details ()
+  "Get detailed information about all markets."
+  (let* ((response (bter-api--get "marketlist"))
+         (markets (assoc-default 'data response)))
+    (mapcar (lambda (data)
+              `((,:number . ,(assoc-default 'no data))
+                (,:symbol . ,(assoc-default 'symbol data))
+                (,:name . ,(assoc-default 'name data))
+                (,:name-cn . ,(assoc-default 'name_cn data))
+                (,:pair . ,(assoc-default 'pair data))
+                (,:rate . ,(assoc-default 'rate data))
+                (,:volume-a . ,(assoc-default 'vol_a data))
+                (,:volume-b . ,(assoc-default 'vol_b data))
+                (,:currency-a . ,(assoc-default 'curr_a data))
+                (,:currency-b . ,(assoc-default 'curr_b data))
+                (,:currency-suffix . ,(assoc-default 'curr_suffix data))
+                (,:rate-percent . ,(assoc-default 'rate_percent data))
+                (,:trend . ,(assoc-default 'trend data))
+                (,:supply . ,(assoc-default 'supply data))
+                (,:market-cap . ,(assoc-default 'marketcap data))))
+            markets)))
+
+(defun bter-api-get-market-details (market)
+  "Get the market details for MARKET."
+  )
 
 
 ;; Internal helpers
