@@ -57,6 +57,14 @@
      (should (numberp (assoc-default :rate-percent first-market)))
      (should (numberp (assoc-default :market-cap first-market))))))
 
+(ert-deftest bter-api-test/can-get-single-market-details ()
+  (with-mock
+   (mock-request "marketlist" nil "marketlist.json")
+   (let ((market (bter-api-get-market-details "btc_usd")))
+     (should (string= "btc_usd" (assoc-default :pair market)))
+     (should (= 263.1 (assoc-default :volume-a market)))
+     (should (string= "USD" (assoc-default :symbol market))))))
+
 
 ;; Internal Tests
 

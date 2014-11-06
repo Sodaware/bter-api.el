@@ -60,7 +60,6 @@
   (let ((market-info (bter-api-get-all-market-info)))
     (bter-api--find-market market market-info)))
 
-
 (defun bter-api-get-all-market-details ()
   "Get detailed information about all markets."
   (let* ((response (bter-api--get "marketlist"))
@@ -69,7 +68,8 @@
 
 (defun bter-api-get-market-details (market)
   "Get the market details for MARKET."
-  )
+  (let ((market-info (bter-api-get-all-market-details)))
+    (bter-api--find-market market market-info)))
 
 
 ;; Internal helpers
