@@ -53,14 +53,7 @@
   "Get a list of all market fees, minimum amounts and decimal places."
   (let* ((market-info (bter-api--get "marketinfo"))
          (pairs (assoc-default 'pairs market-info)))
-    (mapcar (lambda (data)
-              (let ((pair-name (caar data))
-                    (pair-data (cdar data)))
-                `((,:pair . ,(symbol-name pair-name))
-                  (,:decimal-places . ,(assoc-default 'decimal_places pair-data))
-                  (,:min-amount . ,(assoc-default 'min_amount pair-data))
-                  (,:fee . ,(assoc-default 'fee pair-data)))))
-            pairs)))
+    (mapcar 'bter-api--convert-market-info pairs)))
 
 (defun bter-api-get-market-info (market)
   "Get the market fees, minimum amounts and decimal places for MARKET."
@@ -133,6 +126,15 @@ the following string: key=value&other-key=value"
 
 
 ;; Data conversion
+
+(defun bter-api--convert-market-info (market)
+  "Convert marketinfo json for MARKET into an assoc list."
+  (let ((pair-name (caar market))
+        (pair-data (cdar market)))
+    `((,:pair . ,(symbol-name pair-name))
+      (,:decimal-places . ,(assoc-default 'decimal_places pair-data))
+      (,:min-amount . ,(assoc-default 'min_amount pair-data))
+      (,:fee . ,(assoc-default 'fee pair-data)))))
 
 (defun bter-api--convert-market-details (market)
   "Convert the json representation of MARKET into Lisp friendly assoc list."
