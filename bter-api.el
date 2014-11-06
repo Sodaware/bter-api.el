@@ -86,7 +86,7 @@
           (bter-api--build-query query-vars)))
 
 (defun bter-api--string-to-number (value)
-  "Safely converts VALUE to a number."
+  "Safely convert VALUE to a number."
   (if (stringp value)
       (string-to-number value)
     value))
