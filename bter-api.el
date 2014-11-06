@@ -72,23 +72,7 @@
   "Get detailed information about all markets."
   (let* ((response (bter-api--get "marketlist"))
          (markets (assoc-default 'data response)))
-    (mapcar (lambda (data)
-              `((,:number . ,(assoc-default 'no data))
-                (,:symbol . ,(assoc-default 'symbol data))
-                (,:name . ,(assoc-default 'name data))
-                (,:name-cn . ,(assoc-default 'name_cn data))
-                (,:pair . ,(assoc-default 'pair data))
-                (,:rate . ,(bter-api--string-to-number (assoc-default 'rate data)))
-                (,:volume-a . ,(assoc-default 'vol_a data))
-                (,:volume-b . ,(bter-api--string-to-number (assoc-default 'vol_b data)))
-                (,:currency-a . ,(assoc-default 'curr_a data))
-                (,:currency-b . ,(assoc-default 'curr_b data))
-                (,:currency-suffix . ,(assoc-default 'curr_suffix data))
-                (,:rate-percent . ,(bter-api--string-to-number (assoc-default 'rate_percent data)))
-                (,:trend . ,(assoc-default 'trend data))
-                (,:supply . ,(assoc-default 'supply data))
-                (,:market-cap . ,(bter-api--string-to-number (assoc-default 'marketcap data)))))
-            markets)))
+    (mapcar 'bter-api--convert-market-details markets)))
 
 (defun bter-api-get-market-details (market)
   "Get the market details for MARKET."
@@ -147,6 +131,26 @@ the following string: key=value&other-key=value"
         (setq result m)))
     result))
 
+
+;; Data conversion
+
+(defun bter-api--convert-market-details (market)
+  "Convert the json representation of MARKET into Lisp friendly assoc list."
+  `((,:number . ,(assoc-default 'no market))
+    (,:symbol . ,(assoc-default 'symbol market))
+    (,:name . ,(assoc-default 'name market))
+    (,:name-cn . ,(assoc-default 'name_cn market))
+    (,:pair . ,(assoc-default 'pair market))
+    (,:rate . ,(bter-api--string-to-number (assoc-default 'rate market)))
+    (,:volume-a . ,(assoc-default 'vol_a market))
+    (,:volume-b . ,(bter-api--string-to-number (assoc-default 'vol_b market)))
+    (,:currency-a . ,(assoc-default 'curr_a market))
+    (,:currency-b . ,(assoc-default 'curr_b market))
+    (,:currency-suffix . ,(assoc-default 'curr_suffix market))
+    (,:rate-percent . ,(bter-api--string-to-number (assoc-default 'rate_percent market)))
+    (,:trend . ,(assoc-default 'trend market))
+    (,:supply . ,(assoc-default 'supply market))
+    (,:market-cap . ,(bter-api--string-to-number (assoc-default 'marketcap market)))))
 
 (provide 'bter-api)
 ;;; bter-api.el ends here
