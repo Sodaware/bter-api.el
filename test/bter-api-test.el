@@ -45,6 +45,18 @@
      (should (= 1 (assoc-default :number first-market)))
      (should (string= "BTC" (assoc-default :symbol first-market))))))
 
+(ert-deftest bter-api-test/get-all-market-details-returns-fields-as-correct-types ()
+  (with-mock
+   (mock-request "marketlist" nil "marketlist.json")
+   (let* ((markets (bter-api-get-all-market-details))
+          (first-market (elt markets 0)))
+     (should (numberp (assoc-default :number first-market)))
+     (should (numberp (assoc-default :rate first-market)))
+     (should (numberp (assoc-default :volume-a first-market)))
+     (should (numberp (assoc-default :volume-b first-market)))
+     (should (numberp (assoc-default :rate-percent first-market)))
+     (should (numberp (assoc-default :market-cap first-market))))))
+
 
 ;; Internal Tests
 
