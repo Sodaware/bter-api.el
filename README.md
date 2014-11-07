@@ -2,11 +2,34 @@
 
 ## Description
 
-**cryptsy-public-api** is an Emacs library for working with the BTER public
-API. BTER is a Bitcoin and crypto-currency exchange platform.
+**beter-api** is an Emacs library for working with the Bter API. Bter.com is a
+Bitcoin and crypto-currency exchange platform.
 
 It's not a particularly useful extension on its own, but can be used to build
 something more interesting.
+
+
+## Library Functions
+
+The Bter API contains both public and private endpoints. Public endpoints can be
+accessed by any client, whereas private endpoints require an authorization key
+and secret token.
+
+Online documentation for the API can be found here:
+https://bter.com/api
+
+
+### Public API
+
+The API functions are mapped as follows:
+
+API Method           | Local Function
+---------------------|--------------------------------------
+pairs                | bter-api-get-pairs
+marketinfo           | bter-api-get-all-market-info
+                     | bter-api-get-market-info
+marketlist           | bter-api-get-all-market-details
+                     | bter-api-get-market-details
 
 
 ## Licence
