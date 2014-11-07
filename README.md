@@ -27,9 +27,14 @@ API Method           | Local Function
 ---------------------|--------------------------------------
 pairs                | bter-api-get-pairs
 marketinfo           | bter-api-get-all-market-info
-                     | bter-api-get-market-info
 marketlist           | bter-api-get-all-market-details
-                     | bter-api-get-market-details
+
+
+The Emacs library also adds the following functions for fetching individual
+records from lists:
+
+* `bter-api-get-market-info`
+* `bter-api-get-market-details`
 
 
 ## Licence
