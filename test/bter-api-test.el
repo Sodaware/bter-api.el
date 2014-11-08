@@ -65,6 +65,21 @@
      (should (= 263.1 (assoc-default :volume-a market)))
      (should (string= "USD" (assoc-default :symbol market))))))
 
+(ert-deftest bter-api-test/get-tickers-returns-list ()
+  (with-mock
+   (mock-request "tickers" nil "tickers.json")
+   (should (listp (bter-api-get-tickers)))))
+
+(ert-deftest bter-api-test/can-get-tickers ()
+  (with-mock
+   (mock-request "tickers" nil "tickers.json")
+   (let* ((tickers (bter-api-get-tickers))
+          (first-ticker (elt tickers 0)))
+     (should (= 2083 (assoc-default :last first-ticker)))
+     (should (string= "btc_cny" (assoc-default :pair first-ticker)))
+     (should (= 252.8188 (assoc-default :volume-from first-ticker)))
+     (should (= 533668.57 (assoc-default :volume-to first-ticker))))))
+
 
 ;; Internal Tests
 

@@ -71,6 +71,13 @@
   (let ((market-info (bter-api-get-all-market-details)))
     (bter-api--find-market market market-info)))
 
+(defun bter-api-get-tickers ()
+  "Get details for all tickers."
+  (let* ((ticker-info (bter-api--get "tickers"))
+         (result))
+    (dolist (pair ticker-info result)
+      (push (bter-api--convert-tickers pair) result))))
+
 
 ;; Internal helpers
 
@@ -153,6 +160,23 @@ the following string: key=value&other-key=value"
     (,:trend . ,(assoc-default 'trend market))
     (,:supply . ,(assoc-default 'supply market))
     (,:market-cap . ,(bter-api--string-to-number (assoc-default 'marketcap market)))))
+
+(defun bter-api--convert-tickers (ticker)
+  "Convert tickers json info for TICKER into an assoc list."
+  (let* ((pair-name (car ticker))
+         (pair-data (cdr ticker))
+         (symbols (split-string (symbol-name pair-name) "_"))
+         (from-symbol (intern (concat "vol_" (car symbols))))
+         (to-symbol (intern (concat "vol_" (cadr symbols)))))
+    `((,:pair . ,(symbol-name pair-name))
+      (,:last . ,(assoc-default 'last pair-data))
+      (,:high . ,(assoc-default 'high pair-data))
+      (,:low . ,(assoc-default 'low pair-data))
+      (,:average . ,(assoc-default 'avg pair-data))
+      (,:sell . ,(assoc-default 'sell pair-data))
+      (,:buy . ,(assoc-default 'buy pair-data))
+      (,:volume-from . ,(bter-api--string-to-number (assoc-default from-symbol pair-data)))
+      (,:volume-to . ,(bter-api--string-to-number (assoc-default to-symbol pair-data))))))
 
 (provide 'bter-api)
 ;;; bter-api.el ends here
