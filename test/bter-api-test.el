@@ -80,6 +80,19 @@
      (should (= 252.8188 (assoc-default :volume-from first-ticker)))
      (should (= 533668.57 (assoc-default :volume-to first-ticker))))))
 
+(ert-deftest bter-api-test/can-get-ticker-by-name ()
+  (with-mock
+   (mock-request "ticker/btc_usd" nil "ticker-btc_usd.json")
+   (let ((ticker (bter-api-get-ticker "btc" "usd")))
+     (should (= 386 (assoc-default :last ticker)))
+     (should (= 414.001 (assoc-default :high ticker)))
+     (should (= 360 (assoc-default :low ticker)))
+     (should (= 392.842 (assoc-default :average ticker)))
+     (should (= 393.88 (assoc-default :sell ticker)))
+     (should (= 368.011 (assoc-default :buy ticker)))
+     (should (= 1.1309 (assoc-default :volume-from ticker)))
+     (should (= 444.259 (assoc-default :volume-to ticker))))))
+
 
 ;; Internal Tests
 

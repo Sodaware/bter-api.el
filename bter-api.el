@@ -78,6 +78,12 @@
     (dolist (pair ticker-info result)
       (push (bter-api--convert-tickers pair) result))))
 
+(defun bter-api-get-ticker (from to)
+  "Get the ticker for the FROM/TO currency pair."
+  (let* ((pair-name (downcase (format "%s_%s" from to)))
+         (response (bter-api--get (concat "ticker/" pair-name))))
+    (bter-api--convert-ticker response from to)))
+
 
 ;; Internal helpers
 
@@ -177,6 +183,19 @@ the following string: key=value&other-key=value"
       (,:buy . ,(assoc-default 'buy pair-data))
       (,:volume-from . ,(bter-api--string-to-number (assoc-default from-symbol pair-data)))
       (,:volume-to . ,(bter-api--string-to-number (assoc-default to-symbol pair-data))))))
+
+(defun bter-api--convert-ticker (ticker from to)
+  "Convert json info for TICKER for FROM/TO pair into an assoc list."
+  (let* ((from-symbol (intern (concat "vol_" from)))
+         (to-symbol (intern (concat "vol_" to))))
+    `((:last . ,(assoc-default 'last ticker))
+      (:high . ,(assoc-default 'high ticker))
+      (:low . ,(assoc-default 'low ticker))
+      (:average . ,(assoc-default 'avg ticker))
+      (:sell . ,(assoc-default 'sell ticker))
+      (:buy . ,(assoc-default 'buy ticker))
+      (:volume-from . ,(bter-api--string-to-number (assoc-default from-symbol ticker)))
+      (:volume-to . ,(bter-api--string-to-number (assoc-default to-symbol ticker))))))
 
 (provide 'bter-api)
 ;;; bter-api.el ends here
