@@ -141,3 +141,7 @@
 
 (ert-deftest bter-api-test/string-to-number-returns-number-with-number-value ()
   (should (= 123.456 (bter-api--string-to-number 123.456))))
+
+(ert-deftest bter-api-test/can-create-pair-name-from-strings ()
+  (should (string= "btc_usd" (bter-api--get-pair-name "btc" "usd")))
+  (should (string= "btc_usd" (bter-api--get-pair-name "BTC" "USD"))))

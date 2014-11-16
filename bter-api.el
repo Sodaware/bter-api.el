@@ -144,6 +144,10 @@ the following string: key=value&other-key=value"
         (setq result m)))
     result))
 
+(defun bter-api--get-pair-name (from to)
+  "Create a pair name for the FROM/TO currency pair."
+  (downcase (format "%s_%s" from to)))
+
 
 ;; Data conversion
 
