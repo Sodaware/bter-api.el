@@ -84,6 +84,14 @@
          (response (bter-api--get (concat "ticker/" pair-name))))
     (bter-api--convert-ticker response from to)))
 
+(defun bter-api-get-depth (from to)
+  "Get the trading depth data for the FROM/TO currency pair."
+  (let* ((pair-name (downcase (format "%s_%s" from to)))
+         (response (bter-api--get (concat "depth/" pair-name))))
+    `((:asks . ,(mapcar 'bter-api--convert-depth (assoc-default 'asks response)))
+      (:bids . ,(mapcar 'bter-api--convert-depth (assoc-default 'bids response))))
+    ))
+
 
 ;; Internal helpers
 
@@ -196,6 +204,11 @@ the following string: key=value&other-key=value"
       (:buy . ,(assoc-default 'buy ticker))
       (:volume-from . ,(bter-api--string-to-number (assoc-default from-symbol ticker)))
       (:volume-to . ,(bter-api--string-to-number (assoc-default to-symbol ticker))))))
+
+(defun bter-api--convert-depth (depth)
+  "Convert json info for DEPTH data."
+  `((:price . ,(elt depth 0))
+    (:amount . ,(elt depth 1))))
 
 (provide 'bter-api)
 ;;; bter-api.el ends here

@@ -93,6 +93,36 @@
      (should (= 1.1309 (assoc-default :volume-from ticker)))
      (should (= 444.259 (assoc-default :volume-to ticker))))))
 
+(ert-deftest bter-api-test/get-depth-contains-ask-and-bid-lists ()
+  (with-mock
+   (mock-request "depth/btc_usd" nil "depth-btc_usd.json")
+   (let ((response (bter-api-get-depth "btc" "usd")))
+     (should (listp (assoc-default :asks response)))
+     (should (listp (assoc-default :bids response))))))
+
+(ert-deftest bter-api-test/get-depth-contains-ask-data ()
+  (with-mock
+   (mock-request "depth/btc_usd" nil "depth-btc_usd.json")
+   (let ((response (bter-api-get-depth "btc" "usd")))
+     (should (= 64 (length (assoc-default :asks response))))
+     (mapcar (lambda (depth)
+               (should-not (null (assoc-default :price depth)))
+               (should (numberp (assoc-default :price depth)))
+               (should-not (null (assoc-default :amount depth)))
+               (should (numberp (assoc-default :amount depth))))
+             (assoc-default :asks response)))))
+
+(ert-deftest bter-api-test/get-depth-contains-bid-data ()
+  (with-mock
+   (mock-request "depth/btc_usd" nil "depth-btc_usd.json")
+   (let ((response (bter-api-get-depth "btc" "usd")))
+     (should (= 31 (length (assoc-default :bids response))))
+     (mapcar (lambda (depth)
+               (should-not (null (assoc-default :price depth)))
+               (should (numberp (assoc-default :price depth)))
+               (should-not (null (assoc-default :amount depth)))
+               (should (numberp (assoc-default :amount depth))))
+             (assoc-default :bids response)))))
 
 ;; Internal Tests
 
