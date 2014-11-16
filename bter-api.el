@@ -89,8 +89,7 @@
   (let* ((pair-name (downcase (format "%s_%s" from to)))
          (response (bter-api--get (concat "depth/" pair-name))))
     `((:asks . ,(mapcar 'bter-api--convert-depth (assoc-default 'asks response)))
-      (:bids . ,(mapcar 'bter-api--convert-depth (assoc-default 'bids response))))
-    ))
+      (:bids . ,(mapcar 'bter-api--convert-depth (assoc-default 'bids response))))))
 
 
 ;; Internal helpers
