@@ -124,6 +124,25 @@
                (should (numberp (assoc-default :amount depth))))
              (assoc-default :bids response)))))
 
+(ert-deftest bter-api-test/get-trades-contains-elapsed-time ()
+  (with-mock
+   (mock-request "trade/btc_usd" nil "trade-btc_usd.json")
+   (let ((response (bter-api-get-trades "btc" "usd")))
+     (should (= 0.907 (assoc-default :elapsed response))))))
+
+(ert-deftest bter-api-test/get-trades-contains-trade-data ()
+  (with-mock
+   (mock-request "trade/btc_usd" nil "trade-btc_usd.json")
+   (let* ((response (bter-api-get-trades "btc" "usd"))
+          (first-trade (car (assoc-default :trades response))))
+     (should (= 17 (length (assoc-default :trades response))))
+     (should (= 1415900654 (assoc-default :date first-trade)))
+     (should (= 420 (assoc-default :price first-trade)))
+     (should (= 0.0175 (assoc-default :amount first-trade)))
+     (should (= 10127208 (assoc-default :tid first-trade)))
+     (should (equal :sell (assoc-default :type first-trade))))))
+
+
 ;; Internal Tests
 
 (ert-deftest bter-api-test/can-create-endpoint-without-query-vars ()
@@ -153,3 +172,11 @@
 (ert-deftest bter-api-test/can-create-pair-name-from-keywords ()
   (should (string= "btc_usd" (bter-api--get-pair-name :btc :usd)))
   (should (string= "btc_usd" (bter-api--get-pair-name :BTC :USD))))
+
+(ert-deftest bter-api-test/can-convert-trade-type-quoted-value-to-symbol ()
+  (should (eq :buy (bter-api--symbolify-trade-type 'buy)))
+  (should (eq :sell (bter-api--symbolify-trade-type 'sell))))
+
+(ert-deftest bter-api-test/can-convert-trade-type-string-to-symbol ()
+  (should (eq :buy (bter-api--symbolify-trade-type "buy")))
+  (should (eq :sell (bter-api--symbolify-trade-type "sell"))))

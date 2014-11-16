@@ -91,6 +91,16 @@
     `((:asks . ,(mapcar 'bter-api--convert-depth (assoc-default 'asks response)))
       (:bids . ,(mapcar 'bter-api--convert-depth (assoc-default 'bids response))))))
 
+(defun bter-api-get-trades (from to &optional since)
+  "Get latest trades for FROM/TO currency pair, optionally limited to after SINCE."
+  (let* ((pair-name (bter-api--get-pair-name from to))
+         (uri (if (null since)
+                  (format "trade/%s" pair-name)
+                (format "trade/%s/%s" pair-name since)))
+         (response (bter-api--get uri)))
+    `((:elapsed . ,(bter-api--string-to-number (assoc-default 'elapsed response)))
+      (:trades . ,(mapcar 'bter-api--convert-trade-data (assoc-default 'data response))))))
+
 
 ;; Internal helpers
 
@@ -212,6 +222,21 @@ the following string: key=value&other-key=value"
   "Convert json info for DEPTH data."
   `((:price . ,(elt depth 0))
     (:amount . ,(elt depth 1))))
+
+(defun bter-api--convert-trade-data (trade-data)
+  "Convert json info for TRADE-DATA."
+  `((:date . ,(string-to-number (assoc-default 'date trade-data)))
+    (:price . ,(assoc-default 'price trade-data))
+    (:amount . ,(assoc-default 'amount trade-data))
+    (:tid . ,(bter-api--string-to-number (assoc-default 'tid trade-data)))
+    (:type . ,(bter-api--symbolify-trade-type (assoc-default 'type trade-data)))))
+
+(defun bter-api--symbolify-trade-type (type)
+  "Convert TYPE from a quoted value to a symbol."
+  (cond ((equal 'sell type) :sell)
+        ((string= "sell" type) :sell)
+        ((equal 'buy type) :buy)
+        ((string= "buy" type) :buy)))
 
 (provide 'bter-api)
 ;;; bter-api.el ends here
