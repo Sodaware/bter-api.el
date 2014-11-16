@@ -146,7 +146,7 @@ the following string: key=value&other-key=value"
 
 (defun bter-api--get-pair-name (from to)
   "Create a pair name for the FROM/TO currency pair."
-  (downcase (format "%s_%s" from to)))
+  (replace-regexp-in-string ":" "" (downcase (format "%s_%s" from to))))
 
 
 ;; Data conversion

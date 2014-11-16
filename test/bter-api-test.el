@@ -145,3 +145,11 @@
 (ert-deftest bter-api-test/can-create-pair-name-from-strings ()
   (should (string= "btc_usd" (bter-api--get-pair-name "btc" "usd")))
   (should (string= "btc_usd" (bter-api--get-pair-name "BTC" "USD"))))
+
+(ert-deftest bter-api-test/can-create-pair-name-from-quoted-values ()
+  (should (string= "btc_usd" (bter-api--get-pair-name 'btc 'usd)))
+  (should (string= "btc_usd" (bter-api--get-pair-name 'BTC 'USD))))
+
+(ert-deftest bter-api-test/can-create-pair-name-from-keywords ()
+  (should (string= "btc_usd" (bter-api--get-pair-name :btc :usd)))
+  (should (string= "btc_usd" (bter-api--get-pair-name :BTC :USD))))
