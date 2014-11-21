@@ -28,7 +28,10 @@ API Method           | Local Function
 pairs                | bter-api-get-pairs
 marketinfo           | bter-api-get-all-market-info
 marketlist           | bter-api-get-all-market-details
-
+tickers              | bter-api-get-tickers
+ticker               | bter-api-get-ticker
+depth                | bter-api-get-depth
+trade                | bter-api-get-trades
 
 The Emacs library also adds the following functions for fetching individual
 records from lists:
