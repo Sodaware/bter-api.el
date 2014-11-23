@@ -93,6 +93,11 @@
      (should (= 1.1309 (assoc-default :volume-from ticker)))
      (should (= 444.259 (assoc-default :volume-to ticker))))))
 
+(ert-deftest bter-api-test/get-ticker-throws-error-with-invalid-pair ()
+  (with-mock
+   (mock-request "ticker/inv_inv" nil "invalid_ticker.json")
+   (should-error (bter-api-get-ticker "inv" "inv"))))
+
 (ert-deftest bter-api-test/get-depth-contains-ask-and-bid-lists ()
   (with-mock
    (mock-request "depth/btc_usd" nil "depth-btc_usd.json")

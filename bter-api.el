@@ -82,7 +82,9 @@
   "Get the ticker for the FROM/TO currency pair."
   (let* ((pair-name (downcase (format "%s_%s" from to)))
          (response (bter-api--get (concat "ticker/" pair-name))))
-    (bter-api--convert-ticker response from to)))
+    (if (string= "false" (assoc-default 'result response))
+        (error (assoc-default 'message response))
+      (bter-api--convert-ticker response from to))))
 
 (defun bter-api-get-depth (from to)
   "Get the trading depth data for the FROM/TO currency pair."
