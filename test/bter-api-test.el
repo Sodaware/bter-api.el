@@ -147,6 +147,11 @@
      (should (= 10127208 (assoc-default :tid first-trade)))
      (should (equal :sell (assoc-default :type first-trade))))))
 
+(ert-deftest bter-api-test/get-depth-throws-error-with-invalid-pair ()
+  (with-mock
+   (mock-request "depth/inv_inv" nil "invalid_ticker.json")
+   (should-error (bter-api-get-depth "inv" "inv"))))
+
 
 ;; Internal Tests
 

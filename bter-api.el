@@ -90,8 +90,10 @@
   "Get the trading depth data for the FROM/TO currency pair."
   (let* ((pair-name (downcase (format "%s_%s" from to)))
          (response (bter-api--get (concat "depth/" pair-name))))
-    `((:asks . ,(mapcar 'bter-api--convert-depth (assoc-default 'asks response)))
-      (:bids . ,(mapcar 'bter-api--convert-depth (assoc-default 'bids response))))))
+    (if (string= "true" (assoc-default 'result response))
+        `((:asks . ,(mapcar 'bter-api--convert-depth (assoc-default 'asks response)))
+          (:bids . ,(mapcar 'bter-api--convert-depth (assoc-default 'bids response))))
+      (error (assoc-default 'message response)))))
 
 (defun bter-api-get-trades (from to &optional since)
   "Get latest trades for FROM/TO currency pair, optionally limited to after SINCE."
