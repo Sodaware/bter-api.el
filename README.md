@@ -33,11 +33,23 @@ ticker               | bter-api-get-ticker
 depth                | bter-api-get-depth
 trade                | bter-api-get-trades
 
-The Emacs library also adds the following functions for fetching individual
-records from lists:
+The Emacs library also adds the following helper functions:
 
+* `bter-api-valid-pair-p`
 * `bter-api-get-market-info`
 * `bter-api-get-market-details`
+
+
+#### bter-api-get-pairs
+
+Get a list of all trading pairs supported by the Bter platform. Returns a list
+of strings containing pairs in the form of "<from>_<to>", such as
+"btc_usd".
+
+```el
+(bter-api-get-pairs)
+=> ("btc_usd" "btc_cny" *152 more*)
+```
 
 
 ## Licence
