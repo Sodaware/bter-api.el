@@ -82,7 +82,7 @@ Each item in the list contains the following keys:
 => ((:pair . "btc_usd")
     (:decimal-places . 3)
     (:min-amount . 0.0001)
-    (:feed . 0.2)
+    (:fee . 0.2)
     *more pairs*)
 ```
 
