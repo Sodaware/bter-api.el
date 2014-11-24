@@ -19,7 +19,7 @@ Online documentation for the API can be found here:
 https://bter.com/api
 
 
-### Public API
+### API Functions
 
 The API functions are mapped as follows:
 
@@ -62,6 +62,21 @@ Verify that PAIR is a valid trading pair.
 (bter-api-valid-pair-p "inv_inv")
 => nil
 ```
+
+#### bter-api-get-all-market-info
+
+Get a list of all market fees, minimum amounts and decimal places. Returns a
+list of alists containing market information.
+
+Each item in the list contains the following keys:
+
+| Key               | Description
+|-------------------|-------------------------------------------
+| `:pair`           | The pair identifier as a string
+| `:decimal-places` | The number of decimal places in this pair's price
+| `:min-amount`     | The minimal currency amount for this pair
+| `:fee`            | The fee for trading this pair
+
 
 ## Licence
 
