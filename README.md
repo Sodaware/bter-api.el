@@ -51,6 +51,17 @@ of strings containing pairs in the form of "<from>_<to>", such as
 => ("btc_usd" "btc_cny" *152 more*)
 ```
 
+#### bter-api-valid-pair-p *pair*
+
+Verify that PAIR is a valid trading pair.
+
+```el
+(bter-api-valid-pair-p "btc_usd")
+=> t
+
+(bter-api-valid-pair-p "inv_inv")
+=> nil
+```
 
 ## Licence
 
