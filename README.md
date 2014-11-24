@@ -77,6 +77,14 @@ Each item in the list contains the following keys:
 | `:min-amount`     | The minimal currency amount for this pair
 | `:fee`            | The fee for trading this pair
 
+```el
+(bter-api-get-all-market-info)
+=> ((:pair . "btc_usd")
+    (:decimal-places . 3)
+    (:min-amount . 0.0001)
+    (:feed . 0.2)
+    *more pairs*)
+```
 
 ## Licence
 
