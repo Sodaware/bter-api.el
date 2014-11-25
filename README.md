@@ -86,10 +86,11 @@ Each item in the list contains the following keys:
      *more pairs*)
 ```
 
-#### bter-api-get-market-details *market*
+#### bter-api-get-market-info *market*
 
-Get the market details for MARKET. Returns an alist containing details for
-*MARKET* in the same format as `bter-api-get-all-market-info`.
+Get the market fees, minimum amounts and decimal places for MARKET. Returns an
+alist containing details for *MARKET* in the same format as
+`bter-api-get-all-market-info`.
 
 ```el
 (bter-api-get-market-info "btc_usd")
@@ -127,6 +128,8 @@ following fields:
      (:volume-to . 444.259))
     *more*)
 ```
+
+
 
 ## Licence
 
