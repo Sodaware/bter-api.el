@@ -82,8 +82,8 @@ Each item in the list contains the following keys:
 => (((:pair . "btc_usd")
      (:decimal-places . 3)
      (:min-amount . 0.0001)
-     (:fee . 0.2)
-     *more pairs*))
+     (:fee . 0.2))
+     *more pairs*)
 ```
 
 #### bter-api-get-market-details *market*
