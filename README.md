@@ -79,11 +79,24 @@ Each item in the list contains the following keys:
 
 ```el
 (bter-api-get-all-market-info)
+=> (((:pair . "btc_usd")
+     (:decimal-places . 3)
+     (:min-amount . 0.0001)
+     (:fee . 0.2)
+     *more pairs*))
+```
+
+#### bter-api-get-market-details *market*
+
+Get the market details for MARKET. Returns an alist containing details for
+*MARKET* in the same format as `bter-api-get-all-market-info`.
+
+```el
+(bter-api-get-market-info "btc_usd")
 => ((:pair . "btc_usd")
     (:decimal-places . 3)
     (:min-amount . 0.0001)
-    (:fee . 0.2)
-    *more pairs*)
+    (:fee . 0.2))
 ```
 
 ## Licence
