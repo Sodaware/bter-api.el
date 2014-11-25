@@ -99,6 +99,35 @@ Get the market details for MARKET. Returns an alist containing details for
     (:fee . 0.2))
 ```
 
+#### bter-api-get-tickers
+
+Get details for all tickers. Returns a list of alists, each containing the
+following fields:
+
+| Key               | Description
+|-------------------|-------------------------------------------
+| `:last`           | The last exchange value 
+| `:high`           | The high value for this pair
+| `:low`            | The low value for this pair
+| `:average`        | The average value for this pair
+| `:sell`           | The sell price for this pair
+| `:buy`            | The buy price for this pair
+| `:volume-from`    | The trade volume for the "FROM" currency
+| `:volume-to`      | The trade volume for the "TO" currency
+
+```el
+(bter-api-get-tickers)
+=> (((:last . 386)
+     (:high . 414.001)
+     (:low . 360)
+     (:average . 392.842)
+     (:sell . 393.88)
+     (:buy . 369.011)
+     (:volume-from . 1.1309)
+     (:volume-to . 444.259))
+    *more*)
+```
+
 ## Licence
 
 Copyright (C) 2014 Phil Newton
