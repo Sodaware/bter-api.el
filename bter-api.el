@@ -113,14 +113,14 @@
   (bter-api--get-uri (bter-api--create-endpoint path query-vars)))
 
 (defun bter-api--create-endpoint (path &optional query-vars)
-  "Build an endpoint to the api using PATH and QUERY-VARS."
+  "Build an endpoint to the api using PATH and optional QUERY-VARS."
   (format "%s%s/%s"
           bter-api-endpoint
           path
           (bter-api--build-query query-vars)))
 
 (defun bter-api--string-to-number (value)
-  "Safely convert VALUE to a number."
+  "Safely convert VALUE to a number.  Works if VALUE is a string or number."
   (if (stringp value)
       (string-to-number value)
     value))
