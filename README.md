@@ -1,8 +1,10 @@
 # bter-api
 
+## bter.com has closed. this library is no longer functional
+
 ## Description
 
-**beter-api** is an Emacs library for working with the Bter API. Bter.com is a
+**beter-api** is an Emacs library for working with the Bter API. Bter.com was a
 Bitcoin and crypto-currency exchange platform.
 
 It's not a particularly useful extension on its own, but can be used to build
